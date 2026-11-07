@@ -1,0 +1,113 @@
+
+{% extends 'catalog/base.html' %}
+
+{% block title %}All Courses - DTI CoursePortal{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2 class="fw-bold text-dark">
+        Offered IT Courses
+    </h2>
+
+    <span class="badge bg-primary fs-6">
+        {{ courses|length }} Courses Available
+    </span>
+
+</div>
+    
+<!-- Course Search Form -->
+<form method="GET" class="mb-4">
+
+    <div class="input-group">
+
+        <input
+            type="text"
+            name="q"
+            class="form-control"
+            placeholder="Search by course name or code..."
+            value="{{ search_query }}"
+        >
+
+        <button class="btn btn-primary" type="submit">
+            Search
+        </button>
+
+        <a href="{% url 'catalog:course_list' %}"
+           class="btn btn-outline-secondary">
+            Clear
+        </a>
+
+    </div>
+
+</form>
+
+<div class="row">
+
+    {% for course in courses %}
+
+    <div class="col-md-4 mb-4">
+
+        <div class="card h-100 shadow-sm border">
+
+            <div class="card-header bg-white border-bottom-0 pt-3">
+
+                <span class="badge bg-secondary mb-2">
+                    {{ course.code }}
+                </span>
+
+                <h5 class="card-title fw-bold text-primary">
+                    {{ course.title }}
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <p class="card-text text-secondary small">
+                    {{ course.description }}
+                </p>
+
+                <div class="border-top pt-2 mt-3">
+
+                    <small class="d-block text-muted">
+                        <strong>Credits:</strong>
+                        {{ course.credits }} Credits
+                    </small>
+
+                    <small class="d-block text-muted">
+                        <strong>Instructor:</strong>
+                        {{ course.instructor }}
+                    </small>
+
+                </div>
+            </div>
+
+            <div class="card-footer bg-white border-top-0 pb-3">
+
+                <a href="{% url 'catalog:course_detail' course.id %}"
+                   class="btn btn-primary w-100">
+                    View Course Detail
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+    {% empty %}
+
+    <div class="col-12">
+
+        <div class="alert alert-warning">
+            No courses are currently listed in the catalog.
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
